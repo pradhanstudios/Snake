@@ -5,3 +5,6 @@ main:
 
 install:
 	pip3 install -r requirements.txt
+
+venv:
+	virtualenv venv
