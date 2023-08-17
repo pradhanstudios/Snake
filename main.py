@@ -1,26 +1,25 @@
 import pygame
 
-BLACK = (0, 0, 0)
-
-# initialize engine
+# pygame setup
 pygame.init()
-
-screen = pygame.display.set_mode((1200, 800))
-pygame.display.set_caption("Snake")
-
-# set max FPS
+screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
-
 running = True
+
 while running:
+    # event loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    # clear the screen
-    screen.fill(BLACK)
+    # fill the screen with a color to wipe away anything from last frame
+    screen.fill("black")
 
-    # max updates per second
-    clock.tick(60)
+    # RENDER YOUR GAME HERE
+
+    # flip() the display to put your work on screen
+    pygame.display.flip()
+
+    clock.tick(60)  # limits FPS to 60
 
 pygame.quit()
