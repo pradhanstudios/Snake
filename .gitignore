@@ -1,2 +1,4 @@
 /venv/*
 /.vscode/*
+/src/packages/__pycache__/
+/src/packages/__init__.py/
