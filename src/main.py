@@ -1,11 +1,10 @@
 import pygame
-
-BLACK = (0, 0, 0)
+from packages.consts import *
 
 # initialize engine
 pygame.init()
 
-screen = pygame.display.set_mode((1200, 800))
+screen = pygame.display.set_mode(RESOLUTION)
 pygame.display.set_caption("Snake")
 
 # set max FPS
@@ -21,6 +20,6 @@ while running:
     screen.fill(BLACK)
 
     # max updates per second
-    clock.tick(60)
+    clock.tick(FPS)
 
 pygame.quit()

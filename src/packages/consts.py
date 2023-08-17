@@ -1,0 +1,3 @@
+BLACK = (0, 0, 0)
+RESOLUTION = (1200, 800)
+FPS = 60
