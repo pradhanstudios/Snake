@@ -17,7 +17,8 @@ dt = 0  # initialize var for delta time
 font = pygame.font.SysFont("arial", 20)
 
 # initialize game objects
-board = pygame.Rect(BOARD_POS, BOARD_SIZE)
+board_g = pygame.Rect(BOARD_POS, BOARD_SIZE)
+board = [[0] * NUM_COLS for _ in range(NUM_ROWS)]
 
 # game loop
 running = True
@@ -36,24 +37,24 @@ while running:
     # RENDER GAME HERE
 
     # board background
-    pygame.draw.rect(screen, "green", board, border_radius=5)
-    pygame.draw.rect(screen, "black", board, 5, 5)
+    pygame.draw.rect(screen, "green", board_g, border_radius=5)
+    pygame.draw.rect(screen, "black", board_g, 5, 5)
 
     # horizontal gridlines
     for x in range(
-        board.left + (board.width // NUM_COLS),
-        board.right,
-        board.width // NUM_COLS,
+        board_g.left + (board_g.width // NUM_COLS),
+        board_g.right,
+        board_g.width // NUM_COLS,
     ):
-        pygame.draw.line(screen, "black", (x, board.top), (x, board.bottom - 2), 3)
+        pygame.draw.line(screen, "black", (x, board_g.top), (x, board_g.bottom - 2), 3)
 
     # vertical gridlines
     for y in range(
-        board.top + board.height // NUM_ROWS,
-        board.bottom,
-        board.height // NUM_ROWS,
+        board_g.top + board_g.height // NUM_ROWS,
+        board_g.bottom,
+        board_g.height // NUM_ROWS,
     ):
-        pygame.draw.line(screen, "black", (board.left, y), (board.right - 2, y), 3)
+        pygame.draw.line(screen, "black", (board_g.left, y), (board_g.right - 2, y), 3)
 
     # fps tracker
     fps_text = font.render(f"FPS: {round(clock.get_fps())}", True, "black")
