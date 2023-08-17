@@ -5,11 +5,16 @@ from packages.consts import *
 # pygame setup
 pygame.init()
 
+# screen
 screen = pygame.display.set_mode(RESOLUTION)
 pygame.display.set_caption("Snake")
 
+# clock
 clock = pygame.time.Clock()
 dt = 0  # initialize var for delta time
+
+# font
+font = pygame.font.SysFont("arial", 20)
 
 # initialize game objects
 board = pygame.Rect(BOARD_POS, BOARD_SIZE)
@@ -30,27 +35,35 @@ while running:
 
     # RENDER GAME HERE
 
-    # board
+    # board background
     pygame.draw.rect(screen, "green", board, border_radius=5)
     pygame.draw.rect(screen, "black", board, 5, 5)
+
     # horizontal gridlines
     for x in range(
-        BOARD_POS[0] + BOARD_SIZE[0] // 20,
-        BOARD_POS[0] + BOARD_SIZE[0],
-        BOARD_SIZE[0] // 20,
+        board.left + (board.width // NUM_COLS),
+        board.right,
+        board.width // NUM_COLS,
     ):
-        pygame.draw.line(
-            screen, "black", (x, BOARD_POS[1]), (x, BOARD_POS[1] + BOARD_SIZE[1] - 2), 3
-        )
+        pygame.draw.line(screen, "black", (x, board.top), (x, board.bottom - 2), 3)
+
     # vertical gridlines
     for y in range(
-        BOARD_POS[1] + BOARD_SIZE[1] // 20,
-        BOARD_POS[1] + BOARD_SIZE[1],
-        BOARD_SIZE[1] // 20,
+        board.top + board.height // NUM_ROWS,
+        board.bottom,
+        board.height // NUM_ROWS,
     ):
-        pygame.draw.line(
-            screen, "black", (BOARD_POS[0], y), (BOARD_POS[0] + BOARD_SIZE[0] - 2, y), 3
-        )
+        pygame.draw.line(screen, "black", (board.left, y), (board.right - 2, y), 3)
+
+    # fps tracker
+    fps_text = font.render(f"FPS: {round(clock.get_fps())}", True, "black")
+    fps_text = font.render(f"FPS: {round(clock.get_fps())}", True, "black")
+    fps_text_rect = fps_text.get_rect()
+    fps_text_rect.center = (
+        5 + (fps_text_rect.width // 2),
+        5 + (fps_text_rect.height // 2),
+    )
+    screen.blit(fps_text, fps_text_rect)
 
     # flip() display to put your work on screen
     pygame.display.flip()
