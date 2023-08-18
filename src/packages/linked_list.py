@@ -1,4 +1,4 @@
-from . import player as p
+from . import Snake as p
 
 class Node:
     def __init__(self, data: p.Player, next=None) -> None:
