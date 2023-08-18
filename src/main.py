@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from packages.consts import *
-from packages.Snake import Player
+from packages.player import *
 
 # pygame setup
 pygame.init()
@@ -37,7 +37,7 @@ while running:
     screen.fill("lightgreen")
 
     # RENDER GAME HERE
-    snake.draw()
+    # snake.draw()
 
     # board background
     pygame.draw.rect(screen, "green", board_g, border_radius=5)

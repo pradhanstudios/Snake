@@ -1,5 +1,5 @@
 from pygame.rect import Rect
-from linked_list import LinkedList
+from packages.linked_list import LinkedList
 
 
 class Player:
