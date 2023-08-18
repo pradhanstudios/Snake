@@ -1,7 +1,5 @@
-from . import Snake as p
-
 class Node:
-    def __init__(self, data: p.Player, next=None) -> None:
+    def __init__(self, data, next=None) -> None:
         self.data = data
         self.next = next
 
@@ -10,7 +8,7 @@ class LinkedList:
     def __init__(self, head=None) -> None:
         self.head = head
 
-    def insert(self, data: p.Player):
+    def insert(self, data):
         new_node = Node(data)
 
         # new node as head
@@ -19,7 +17,7 @@ class LinkedList:
             return
 
         last = self.head
-        while (last.next):
+        while last.next:
             last = last.next
 
         last.next = new_node
@@ -32,4 +30,3 @@ class LinkedList:
 
     def next(self):
         self.head = self.head.next
-
