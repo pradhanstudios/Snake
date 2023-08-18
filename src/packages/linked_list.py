@@ -1,10 +1,8 @@
-from packages.consts import *
-# from pygame.rect import Rect
-
+from . import player as p
 
 class Node:
-    def __init__(self, xy: tuple[int], next=None) -> None:
-        self.coord = xy
+    def __init__(self, data: p.Player, next=None) -> None:
+        self.data = data
         self.next = next
 
 
@@ -12,7 +10,7 @@ class LinkedList:
     def __init__(self, head=None) -> None:
         self.head = head
 
-    def insert(self, data):
+    def insert(self, data: p.Player):
         new_node = Node(data)
 
         # 4. If the Linked List is empty, then make the
@@ -32,16 +30,5 @@ class LinkedList:
     def printll(self):
         temp = self.head
         while temp:
-            print(temp.coord)
+            print(temp.data)
             temp = temp.next
-
-    
-
-
-# class Snake:
-#     def __init__(self, x, y, w, h) -> None:
-#         self.body = LinkedList(Rect(x, y, w, h))
-
-#     def draw_body(self):
-        
-    
