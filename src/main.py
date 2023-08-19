@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from packages.consts import *
-from packages.player import *
+from packages.Snake import *
 
 # pygame setup
 pygame.init()
