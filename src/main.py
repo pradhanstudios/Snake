@@ -9,7 +9,7 @@ pygame.init()
 # screen
 screen = pygame.display.set_mode(RESOLUTION)
 pygame.display.set_caption("Snake")
-snake = Player(RESOLUTION[0]//2, RESOLUTION[1]//2, 100, 100, "black")
+# snake = Player(RESOLUTION[0]//2, RESOLUTION[1]//2, 100, 100, "black")
 
 # clock
 clock = pygame.time.Clock()
