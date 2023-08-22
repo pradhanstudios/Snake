@@ -1,0 +1,31 @@
+   0   1   2   3   4   5   6   7   8   9
+0 [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+1 [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+2 [ ] [%] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+3 [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+4 [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+5 [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+6 [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+7 [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+8 [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+9 [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]
+
+snake = [p1]
+
+update():
+    new_pos = []
+    for p in snake:
+        new_pos.append(tuple_add(p, direction))
+
+(2, 1)
+% => 100, 200
+
+
+RULES:
+
+if head touches body, you lose
+if head touches fruit you add another body
+there is vertical and horizontal screen warp
+always moving
+you can not move into yourself
+
