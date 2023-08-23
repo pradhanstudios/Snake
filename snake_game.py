@@ -1,9 +1,7 @@
 import pygame
 
-# from sys import _getframe
 from pygame.locals import *
-from random import randint
-from enum import Enum
+from random import randint, choice
 
 
 #############
@@ -36,10 +34,6 @@ def snake_move(keys, player_dir) -> tuple:
     if keys[K_d] and player_dir != LEFT:
         return RIGHT
 
-    # debug
-    if keys[K_SPACE]:
-        return STOP
-
     return player_dir
 
 
@@ -54,13 +48,16 @@ def snake_update(body: list[tuple], dir: tuple):
     return new_body
 
 
-def board_update(body):
+def board_update(body, fruit):
     body_segment_count = 0
     new_board = []
     for r in range(DIM_TILES):
         new_row = []
         for c in range(DIM_TILES):
-            if (r, c) in body:
+            if (r, c) == fruit:
+                new_row.append(2)
+                body_segment_count += 1  # hehe haha this kid is eating
+            elif (r, c) in body:
                 new_row.append(1)
                 body_segment_count += 1
             else:
@@ -69,52 +66,82 @@ def board_update(body):
     return new_board, (body_segment_count >= len(body))
 
 
+def draw_head(surface, r, c):
+    pygame.draw.rect(
+        surface,
+        "black",
+        pygame.Rect(
+            c * TILE_SIZE + 2,
+            r * TILE_SIZE + 2,
+            TILE_SIZE - 4,
+            TILE_SIZE - 4,
+        ),
+        border_radius=25,
+    )
+
+    pygame.draw.rect(
+        surface,
+        "red",
+        pygame.Rect(
+            c * TILE_SIZE + (TILE_SIZE // 2 - 15),
+            r * TILE_SIZE + (TILE_SIZE // 2 - 15),
+            30,
+            30,
+        ),
+        border_radius=20,
+    )
+
+
+def draw_body(surface, r, c):
+    pygame.draw.rect(
+        surface,
+        "black",
+        pygame.Rect(
+            c * TILE_SIZE + 2,
+            r * TILE_SIZE + 2,
+            TILE_SIZE - 4,
+            TILE_SIZE - 4,
+        ),
+        border_radius=25,
+    )
+
+
+def draw_fruit(surface, r, c):
+    pygame.draw.rect(
+        surface,
+        "red",
+        pygame.Rect(
+            (c * TILE_SIZE) + (TILE_SIZE // 4),
+            (r * TILE_SIZE) + (TILE_SIZE // 4),
+            (TILE_SIZE // 2),
+            (TILE_SIZE // 2),
+        ),
+        border_radius=50,
+    )
+
+
 def board_draw(surface, board, head):
-    # print()
-    # for row in board:
-    #     print(row)
     for r in range(DIM_TILES):
         for c in range(DIM_TILES):
             if (r, c) == head:
-                pygame.draw.rect(
-                    surface,
-                    "black",
-                    pygame.Rect(
-                        c * TILE_SIZE + 2,
-                        r * TILE_SIZE + 2,
-                        TILE_SIZE - 4,
-                        TILE_SIZE - 4,
-                    ),
-                    border_radius=25,
-                )
-
-                pygame.draw.rect(
-                    surface,
-                    "red",
-                    pygame.Rect(
-                        c * TILE_SIZE + (TILE_SIZE // 2 - 15),
-                        r * TILE_SIZE + (TILE_SIZE // 2 - 15),
-                        30,
-                        30,
-                    ),
-                    border_radius=20,
-                )
+                draw_head(surface, r, c)
             elif board[r][c] == 1:
-                pygame.draw.rect(
-                    surface,
-                    "black",
-                    pygame.Rect(
-                        c * TILE_SIZE + 2,
-                        r * TILE_SIZE + 2,
-                        TILE_SIZE - 4,
-                        TILE_SIZE - 4,
-                    ),
-                    border_radius=25,
-                )
+                draw_body(surface, r, c)
+            elif board[r][c] == 2:
+                draw_fruit(surface, r, c)
 
 
-def generate_random_fruit_pos() -> tuple:
-    pass
+def generate_random_fruit_pos(board) -> tuple:
+    return choice(find_open_positions(board))
+
+
+def find_open_positions(board) -> list[tuple]:
+    out = []
+    for i in range(DIM_TILES):
+        for j in range(DIM_TILES):
+            if board[i][j] == 0:
+                out.append((i, j))
+    return out
 
 
 # constants
@@ -155,10 +182,14 @@ board = [[EMPTY for _ in range(DIM_TILES)] for _ in range(DIM_TILES)]
 player_body = [generate_random_snake_pos()]
 player_head = player_body[0]
 player_body.append((player_head[0] + 1, player_head[1]))
-player_body.append((player_head[0] + 2, player_head[1]))
-player_body.append((player_head[0] + 3, player_head[1]))
-player_body.append((player_head[0] + 4, player_head[1]))
+for coord in player_body:
+    board[coord[0]][coord[1]] = 1
+
 player_dir = UP
+fruit_pos = generate_random_fruit_pos(board)
+board[fruit_pos[0]][fruit_pos[1]] = 2
+
+print(fruit_pos)
 
 ################################# GAME LOOP ###################################
 frame_counter = 0
@@ -202,7 +233,7 @@ while running:
         # if player_head in player_body[0::]:
         #     running = False
 
-        board, running = board_update(player_body)
+        board, running = board_update(player_body, fruit_pos)
 
     # DRAW
     board_draw(screen, board, player_head)
