@@ -243,7 +243,17 @@ while running:
             or player_head[1] < 0
             or player_head[0] > DIM_TILES - 1
         ):
-            running = False
+            board = [[EMPTY for _ in range(DIM_TILES)] for _ in range(DIM_TILES)]
+
+            player_body = [generate_random_snake_pos()]
+            player_head = player_body[0]
+            player_body.append((player_head[0] + 1, player_head[1]))
+            for coord in player_body:
+                board[coord[0]][coord[1]] = 1
+            player_dir = UP
+
+            fruit_pos = generate_random_fruit_pos(board)
+            board[fruit_pos[0]][fruit_pos[1]] = 2
 
         board, running, fruit_pos = board_update(player_body, fruit_pos)
 
