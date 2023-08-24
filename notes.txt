@@ -6,8 +6,7 @@ TODO list:
 
 - fruit eating
     if eat fruit, generate new fruit [+]
-    and increase
-    body segment by 1
+    increase body segment by 1
 
 board: 2d array
 

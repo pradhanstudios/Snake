@@ -37,14 +37,22 @@ def snake_move(keys, player_dir) -> tuple:
     return player_dir
 
 
-def snake_update(body: list[tuple], dir: tuple):
+def snake_update(body: list[tuple], dir: tuple, fruit: tuple):
+    prev_tail = body[-1]
+    ate_fruit = False
     new_body = []
+
+    ate_fruit = tuple_addition(body[0], dir) == fruit
 
     new_body.append(tuple_addition(body[0], dir))
     prev = body[0]
     for i in range(1, len(body)):
         new_body.append(prev)
         prev = body[i]
+
+    if ate_fruit:
+        new_body.append(prev_tail)
+
     return new_body
 
 
@@ -62,7 +70,7 @@ def board_update(body, fruit):
                     body_segment_count += 1
                 else:
                     new_row.append(2)
-                    body_segment_count += 1  # hehe haha this kid is eating
+                    body_segment_count += 1
             elif (r, c) in body:
                 new_row.append(1)
                 body_segment_count += 1
@@ -187,17 +195,16 @@ clock = pygame.time.Clock()
 
 # row, col format
 board = [[EMPTY for _ in range(DIM_TILES)] for _ in range(DIM_TILES)]
+
 player_body = [generate_random_snake_pos()]
 player_head = player_body[0]
 player_body.append((player_head[0] + 1, player_head[1]))
 for coord in player_body:
     board[coord[0]][coord[1]] = 1
-
 player_dir = UP
+
 fruit_pos = generate_random_fruit_pos(board)
 board[fruit_pos[0]][fruit_pos[1]] = 2
-
-print(fruit_pos)
 
 ################################# GAME LOOP ###################################
 frame_counter = 0
@@ -226,7 +233,7 @@ while running:
 
     if frame_counter % 15 == 0:
         dir_change = False
-        player_body = snake_update(player_body, player_dir)
+        player_body = snake_update(player_body, player_dir, fruit_pos)
 
         player_head = player_body[0]
 
