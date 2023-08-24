@@ -50,20 +50,28 @@ def snake_update(body: list[tuple], dir: tuple):
 
 def board_update(body, fruit):
     body_segment_count = 0
+    new_fruit = fruit
     new_board = []
     for r in range(DIM_TILES):
         new_row = []
         for c in range(DIM_TILES):
             if (r, c) == fruit:
-                new_row.append(2)
-                body_segment_count += 1  # hehe haha this kid is eating
+                if (r, c) in body:
+                    new_fruit = generate_random_fruit_pos(board)
+                    new_row.append(1)
+                    body_segment_count += 1
+                else:
+                    new_row.append(2)
+                    body_segment_count += 1  # hehe haha this kid is eating
             elif (r, c) in body:
                 new_row.append(1)
                 body_segment_count += 1
             else:
                 new_row.append(0)
         new_board.append(new_row)
-    return new_board, (body_segment_count >= len(body))
+    if new_fruit != fruit:
+        new_board[new_fruit[0]][new_fruit[1]]
+    return new_board, (body_segment_count >= len(body)), new_fruit
 
 
 def draw_head(surface, r, c):
@@ -230,10 +238,7 @@ while running:
         ):
             running = False
 
-        # if player_head in player_body[0::]:
-        #     running = False
-
-        board, running = board_update(player_body, fruit_pos)
+        board, running, fruit_pos = board_update(player_body, fruit_pos)
 
     # DRAW
     board_draw(screen, board, player_head)

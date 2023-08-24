@@ -5,7 +5,8 @@ TODO list:
     already blocked by snake
 
 - fruit eating
-    if eat fruit, gen new fruit and increase
+    if eat fruit, generate new fruit [+]
+    and increase
     body segment by 1
 
 board: 2d array
