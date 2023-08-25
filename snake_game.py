@@ -174,7 +174,7 @@ EMPTY = 0
 SNAKE = 1
 FRUIT = 2
 
-RESOLUTION = WIDTH, HEIGHT = (800, 800)
+RESOLUTION = WIDTH, HEIGHT = (1000, 800)
 DIM_TILES = 10
 TILE_SIZE = HEIGHT // DIM_TILES
 
@@ -290,6 +290,7 @@ while running:
 
     # DRAW
     board_draw(screen, board, player_head)
+    pygame.draw.aaline(screen, "black", (HEIGHT, 0), (HEIGHT, HEIGHT))
     pygame.display.set_caption(f"Snake -- high score: {high_score} -- score: {score}")
 
     # flip() the display to put your work on screen
