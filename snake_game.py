@@ -174,7 +174,7 @@ EMPTY = 0
 SNAKE = 1
 FRUIT = 2
 
-RESOLUTION = WIDTH, HEIGHT = (1000, 1000)
+RESOLUTION = WIDTH, HEIGHT = (800, 800)
 DIM_TILES = 10
 TILE_SIZE = HEIGHT // DIM_TILES
 
@@ -192,6 +192,8 @@ font = pygame.font.SysFont("arial", 20)
 clock = pygame.time.Clock()
 
 # game objects
+high_score = 0
+score = 0
 
 # row, col format
 board = [[EMPTY for _ in range(DIM_TILES)] for _ in range(DIM_TILES)]
@@ -243,6 +245,9 @@ while running:
             or player_head[1] < 0
             or player_head[0] > DIM_TILES - 1
         ):
+            high_score = score if score > high_score else high_score
+            score = 0
+
             board = [[EMPTY for _ in range(DIM_TILES)] for _ in range(DIM_TILES)]
 
             player_body = [generate_random_snake_pos()]
@@ -255,10 +260,14 @@ while running:
             fruit_pos = generate_random_fruit_pos(board)
             board[fruit_pos[0]][fruit_pos[1]] = 2
 
+        old_fruit_pos = fruit_pos
         board, running, fruit_pos = board_update(player_body, fruit_pos)
+        if old_fruit_pos != fruit_pos:
+            score += 1
 
     # DRAW
     board_draw(screen, board, player_head)
+    pygame.display.set_caption(f"Snake -- high score: {high_score} -- score: {score}")
 
     # flip() the display to put your work on screen
     pygame.display.flip()
